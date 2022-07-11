@@ -60,6 +60,8 @@ RUN yum install yum-utils -y \
 
 COPY ./*.txt ./${CORTX_IMAGE}/*.txt ./compatibility.info ./generate-release-info.sh /opt/seagate/cortx/
 
+RUN yum remove rootfiles dracut-squash rpm-plugin-systemd-inhibit basesystem libkcapi-hmaccalc hostname sshpass libmnl pciutils libkcapi -y
+
 RUN yum install --nogpgcheck -y python3-pip \
     && pip3 install yq==2.14.0 \
     && while read component; do grep "$component" < /opt/seagate/cortx/python_requirements.txt; done </opt/seagate/cortx/cortx-component-rpms.txt | sed 's/#.*//g' > /opt/seagate/cortx/requirements.txt \
@@ -78,5 +80,4 @@ RUN yum install --nogpgcheck -y  $(sed 's/#.*//g' /opt/seagate/cortx/cortx-compo
 RUN rm -f /etc/machine-id && ln -s /etc/cortx/config/machine-id /etc/machine-id \
     && bash /opt/seagate/cortx/generate-release-info.sh \
     && rm -rf /etc/yum.repos.d/$(echo $BUILD_URL | awk -F '/' '{print $3}')*.repo /etc/yum.repos.d/$OS.repo \
-    && yum clean all && rm -rf /var/cache/yum && rm -rf /root/.cache \
-    && yum remove rootfiles dracut-squash rpm-plugin-systemd-inhibit basesystem libkcapi-hmaccalc hostname sshpass libmnl pciutils-libs libkcapi -y
+    && yum clean all && rm -rf /var/cache/yum && rm -rf /root/.cache 
