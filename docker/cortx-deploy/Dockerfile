@@ -80,3 +80,5 @@ RUN rm -f /etc/machine-id && ln -s /etc/cortx/config/machine-id /etc/machine-id 
 
 RUN rm -rf /etc/yum.repos.d/$(echo $BUILD_URL | awk -F '/' '{print $3}')*.repo /etc/yum.repos.d/$OS.repo \
     && yum clean all && rm -rf /var/cache/yum && rm -rf /root/.cache
+
+RUN yum remove rootfiles dracut-squash rpm-plugin-systemd-inhibit basesystem -y
