@@ -60,7 +60,7 @@ RUN yum install yum-utils -y \
 
 COPY ./*.txt ./${CORTX_IMAGE}/*.txt ./compatibility.info ./generate-release-info.sh /opt/seagate/cortx/
 
-RUN yum remove rootfiles dracut-squash rpm-plugin-systemd-inhibit basesystem libkcapi-hmaccalc hostname libmnl libkcapi -y
+RUN yum remove rootfiles dracut-squash rpm-plugin-systemd-inhibit basesystem libkcapi-hmaccalc libmnl libkcapi -y
 
 RUN yum install --nogpgcheck -y python3-pip \
     && pip3 install yq==2.14.0 \
